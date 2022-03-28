@@ -77,3 +77,6 @@ for l in total_list:
 
 #school 6:30-7:00 band 8:00-9:00
 #calculate now to school, and then school to band
+#uploaded to github!!!! poggies :))))))))
+#havish and jeff helping me rn, screensharing to them!
+# hashtag fun times with friends!
