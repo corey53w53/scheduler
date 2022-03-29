@@ -1,6 +1,3 @@
-from re import A
-
-
-test="18:30"
-a,b=int(test.split(":"))
-print(a)
+s='6:30-7:30'
+if s.isnumeric():
+    print("ahhhhh")

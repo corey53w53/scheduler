@@ -58,7 +58,7 @@ class Event(Time):
             self.end_time+inc
     def __str__(self):
         return f'{self.start_time} - {self.end_time}'
-user_input="school 6:30-14:30 math 15:00 30"
+user_input="school 6:30-7:30 trim 15:00 20 math 30"
 clean=user_input.split()
 counter=0
 total_list=[]
@@ -72,13 +72,15 @@ while counter<len(clean):
             if counter==len(clean):
                 break
     total_list.append(smaller_list)
-print(total_list)
-# input1=["5:30-5:45"]
-# input2=["3:30","15"]
-# event_list=[]
-# i1=Event(*input1)
-# i2=Event(*input2)
-# event_list.append(i1)
-# event_list.append(i2)
-# for i in event_list:
-#     print(i)
+task_list=[]
+event_list=[]
+for l in total_list:
+    if len(l)==2 and l[1].isdecimal():
+            task_list.append(l)
+    else:
+        time_length=l[1:]
+        event=Event(*time_length)
+        event_list.append([l[0],event])
+print(task_list)
+for e in event_list:
+    print(e[0],e[1])

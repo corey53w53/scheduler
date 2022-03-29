@@ -55,7 +55,6 @@ while counter<len(clean):
             if counter==len(clean):
                 break
     total_list.append(smaller_list)
-print(total_list)
 t=Time().calc_next_fifteen()
 break_time=10
 for l in total_list:
@@ -66,11 +65,7 @@ for l in total_list:
             print(f'{l[0]}: {before} - {t}')
             t+break_time
         else:
-            #18:30-18:45
             initial,final=l.split("-")
-            
-
-
 #TODO have a way to make events? and then somehow fill in the space
 #calculate the space in between events.
 #add way to identify days
