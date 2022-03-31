@@ -1,5 +1,7 @@
 import time
 import copy
+
+from numpy import isin
 class Time:
     def __init__(self,hour=time.localtime().tm_hour,min=time.localtime().tm_min):
         assert(0<=hour<24)
@@ -73,15 +75,19 @@ while counter<len(clean):
         smaller_list=[clean[counter]]
         counter+=1
         while not clean[counter].isalpha():
-            smaller_list.append(clean[counter])
+            if clean[counter].isnumeric():
+                smaller_list.append(int(clean[counter]))
+            else:
+                smaller_list.append(clean[counter])
             counter+=1
             if counter==len(clean):
                 break
+    print(smaller_list)
     total_list.append(smaller_list)
 task_list=[]
 event_list=[]
 for l in total_list:
-    if len(l)==2 and l[1].isdecimal():
+    if len(l)==2 and isinstance(l[1],int):
             task_list.append(l)
     else:
         time_length=l[1:]
@@ -107,6 +113,6 @@ for empty_event in empty_event_list:
     print(empty_event.start_time.as_int,empty_event.end_time.as_int)
     print(empty_event.diff)
     # time_to_insert=empty_event.start_time
-    
+print(task_list)
 #TODO find empty spaces
 #
