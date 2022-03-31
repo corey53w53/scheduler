@@ -39,7 +39,7 @@ class Time:
     def to_int(self):
         return self.hour*60+self.min
     def difference(self,t2):
-        return abs(self.to_int()-t2.to_int())
+        return -self.to_int()+t2.to_int()
 
 class Event(Time):
     def __init__(self, *args):
@@ -60,8 +60,6 @@ class Event(Time):
                 inc=int(args[1])
                 self.end_time=copy.deepcopy(self.start_time)
                 self.end_time+inc
-        print(type(self.start_time))
-        print(type(self.end_time))
         self.diff=(self.start_time).difference(self.end_time)
     def __str__(self):
         return f'{self.start_time} - {self.end_time}'
@@ -88,29 +86,26 @@ for l in total_list:
         time_length=l[1:]
         event=Event(*time_length)
         event_list.append([l[0],event])
-print(task_list)
-
-print(event_list)
 empty_time_list=[Time().calc_next_fifteen()]
-#list of tuples of times, [0] is start and [1] is end
-
 for e in event_list:
     empty_time_list.append(e[1].start_time)
     empty_time_list.append(e[1].end_time)
-    print(e[1].diff)
-#empty time list has odd number of times, last time should be removed and set as "current time", in case the empty spaces are not enough to store the tasks
-time_after_first_event=empty_time_list[-1]
-print(empty_time_list)
-counter=0
+time_after_last_event=empty_time_list[-1]
 empty_event_list=[]
+counter=0
 while counter<len(empty_time_list)-1:
     empty_start=empty_time_list[counter]
     empty_end=empty_time_list[counter+1]
     empty_event=Event(empty_start,empty_end)
     empty_event_list.append(empty_event)
     counter+=2
-
+    print(empty_event_list)
 #empty_event_list contains a list of events during which is free time
 for empty_event in empty_event_list:
+    print("ran")
     print(empty_event.start_time,empty_event.end_time)
+    print(empty_event.diff)
+    # time_to_insert=empty_event.start_time
+    
 #TODO find empty spaces
+#
