@@ -6,7 +6,7 @@ class Time:
         assert(0<=min<60)
         self.hour=hour
         self.min=min
-    def __str__(self,military=False):
+    def __str__(self,military=True):
         str_min=str(self.min)
         if len(str_min)==1:
             str_min="0"+str_min
@@ -50,12 +50,18 @@ class Event(Time):
             self.start_time=Time(int(self.start_hour),int(self.start_min))
             self.end_time=Time(int(self.end_hour),int(self.end_min))
         elif len(args)==2:
-            start=args[0]
-            self.start_hour,self.start_min=start.split(":")
-            self.start_time=Time(int(self.start_hour),int(self.start_min))
-            inc=int(args[1])
-            self.end_time=copy.deepcopy(self.start_time)
-            self.end_time+inc
+            if isinstance(args[0],Time):
+                self.start_time=args[0]
+                self.end_time=args[1]
+            else:
+                start=args[0]
+                self.start_hour,self.start_min=start.split(":")
+                self.start_time=Time(int(self.start_hour),int(self.start_min))
+                inc=int(args[1])
+                self.end_time=copy.deepcopy(self.start_time)
+                self.end_time+inc
+        print(type(self.start_time))
+        print(type(self.end_time))
         self.diff=(self.start_time).difference(self.end_time)
     def __str__(self):
         return f'{self.start_time} - {self.end_time}'
@@ -85,7 +91,7 @@ for l in total_list:
 print(task_list)
 
 print(event_list)
-empty_time_list=[Time()]
+empty_time_list=[Time().calc_next_fifteen()]
 #list of tuples of times, [0] is start and [1] is end
 
 for e in event_list:
@@ -95,4 +101,16 @@ for e in event_list:
 #empty time list has odd number of times, last time should be removed and set as "current time", in case the empty spaces are not enough to store the tasks
 time_after_first_event=empty_time_list[-1]
 print(empty_time_list)
+counter=0
+empty_event_list=[]
+while counter<len(empty_time_list)-1:
+    empty_start=empty_time_list[counter]
+    empty_end=empty_time_list[counter+1]
+    empty_event=Event(empty_start,empty_end)
+    empty_event_list.append(empty_event)
+    counter+=2
+
+#empty_event_list contains a list of events during which is free time
+for empty_event in empty_event_list:
+    print(empty_event.start_time,empty_event.end_time)
 #TODO find empty spaces
