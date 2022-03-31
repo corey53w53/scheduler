@@ -69,6 +69,8 @@ class Event(Time):
 user_input="school 6:30-7:30 trim 15:00 20 math 30"
 clean=user_input.split()
 counter=0
+
+
 total_list=[]
 while counter<len(clean):
     if clean[counter].isalpha():
@@ -84,6 +86,8 @@ while counter<len(clean):
                 break
     print(smaller_list)
     total_list.append(smaller_list)
+#parses user input into "total_list"
+
 task_list=[]
 event_list=[]
 for l in total_list:
@@ -93,6 +97,8 @@ for l in total_list:
         time_length=l[1:]
         event=Event(*time_length)
         event_list.append([l[0],event])
+#sorts lists in total_list into either tasks or events
+
 empty_time_list=[Time().calc_next_fifteen()]
 for e in event_list:
     empty_time_list.append(e[1].start_time)
@@ -107,10 +113,11 @@ while counter<len(empty_time_list)-1:
     empty_event_list.append(empty_event)
     counter+=2
     print(empty_event_list)
-#empty_event_list contains a list of events during which is free time
+#uses event_list to create empty_event_list, which contains a list of events during which is free time
+
 for empty_event in empty_event_list:
-    print(empty_event.start_time,empty_event.end_time)
-    print(empty_event.start_time.as_int,empty_event.end_time.as_int)
+    # print(empty_event.start_time,empty_event.end_time)
+    # print(empty_event.start_time.as_int,empty_event.end_time.as_int)
     print(empty_event.diff)
     # time_to_insert=empty_event.start_time
 print(task_list)
