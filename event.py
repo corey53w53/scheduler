@@ -37,7 +37,7 @@ class Time:
             self.hour+=1
         self.hour%=24
     def to_int(self):
-        return self.hour*60+self.sec
+        return self.hour*60+self.min
     def difference(self,t2):
         return abs(self.to_int()-t2.to_int())
 
@@ -56,6 +56,7 @@ class Event(Time):
             inc=int(args[1])
             self.end_time=copy.deepcopy(self.start_time)
             self.end_time+inc
+        self.diff=(self.start_time).difference(self.end_time)
     def __str__(self):
         return f'{self.start_time} - {self.end_time}'
 user_input="school 6:30-7:30 trim 15:00 20 math 30"
@@ -82,5 +83,16 @@ for l in total_list:
         event=Event(*time_length)
         event_list.append([l[0],event])
 print(task_list)
+
+print(event_list)
+empty_time_list=[Time()]
+#list of tuples of times, [0] is start and [1] is end
+
 for e in event_list:
-    print(e[0],e[1])
+    empty_time_list.append(e[1].start_time)
+    empty_time_list.append(e[1].end_time)
+    print(e[1].diff)
+#empty time list has odd number of times, last time should be removed and set as "current time", in case the empty spaces are not enough to store the tasks
+time_after_first_event=empty_time_list[-1]
+print(empty_time_list)
+#TODO find empty spaces
