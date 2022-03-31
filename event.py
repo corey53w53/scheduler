@@ -85,6 +85,14 @@ for l in total_list:
 print(task_list)
 
 print(event_list)
+empty_time_list=[Time()]
+#list of tuples of times, [0] is start and [1] is end
+
 for e in event_list:
+    empty_time_list.append(e[1].start_time)
+    empty_time_list.append(e[1].end_time)
     print(e[1].diff)
+#empty time list has odd number of times, last time should be removed and set as "current time", in case the empty spaces are not enough to store the tasks
+time_after_first_event=empty_time_list[-1]
+print(empty_time_list)
 #TODO find empty spaces
