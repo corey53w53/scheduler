@@ -6,6 +6,7 @@ class Time:
         assert(0<=min<60)
         self.hour=hour
         self.min=min
+        self.as_int=self.hour*60+self.min
     def __str__(self,military=True):
         str_min=str(self.min)
         if len(str_min)==1:
@@ -102,8 +103,8 @@ while counter<len(empty_time_list)-1:
     print(empty_event_list)
 #empty_event_list contains a list of events during which is free time
 for empty_event in empty_event_list:
-    print("ran")
     print(empty_event.start_time,empty_event.end_time)
+    print(empty_event.start_time.as_int,empty_event.end_time.as_int)
     print(empty_event.diff)
     # time_to_insert=empty_event.start_time
     
