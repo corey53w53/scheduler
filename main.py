@@ -66,10 +66,11 @@ class Event(Time):
         self.diff=(self.start_time).difference(self.end_time)
     def __str__(self):
         return f'{self.start_time} - {self.end_time}'
-user_input="school 6:30-7:30 trim 15:00 20 math 30"
+user_input="school 6:30-14:30 meeting 15:00 90 math 30"
 clean=user_input.split()
 counter=0
-
+start_bound=Time(1,0)
+end_bound=Time(22,0)
 
 total_list=[]
 while counter<len(clean):
@@ -99,27 +100,23 @@ for l in total_list:
         event_list.append([l[0],event])
 #sorts lists in total_list into either tasks or events
 
-empty_time_list=[Time().calc_next_fifteen()]
+empty_time_list=[start_bound.calc_next_fifteen()]
 for e in event_list:
     empty_time_list.append(e[1].start_time)
     empty_time_list.append(e[1].end_time)
-time_after_last_event=empty_time_list[-1]
+empty_time_list.append(end_bound)
 empty_event_list=[]
+empty_times_lengths_list=[]
 counter=0
 while counter<len(empty_time_list)-1:
     empty_start=empty_time_list[counter]
     empty_end=empty_time_list[counter+1]
     empty_event=Event(empty_start,empty_end)
     empty_event_list.append(empty_event)
+    empty_times_lengths_list.append(empty_event.diff)
     counter+=2
     print(empty_event_list)
-#uses event_list to create empty_event_list, which contains a list of events during which is free time
-
-for empty_event in empty_event_list:
-    # print(empty_event.start_time,empty_event.end_time)
-    # print(empty_event.start_time.as_int,empty_event.end_time.as_int)
-    print(empty_event.diff)
-    # time_to_insert=empty_event.start_time
-print(task_list)
-#TODO find empty spaces
-#
+#empty_time_list is a list of times
+#empty_event_list contains a list of events during which is free time
+#empty_times_lengths_list has list of integers, which is the minutes available to insert tasks (in between events)
+print(empty_times_lengths_list)
