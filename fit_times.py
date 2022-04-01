@@ -2,8 +2,8 @@
 def insert_task(task_time,gaps):
     counter=0
     while counter<len(gaps):
-        if task_time<gaps[counter]:
-            gaps[counter]-=task_time
+        if task_time<gaps[counter][0]:
+            gaps[counter].append(task_time)
             return gaps
         counter+=1
     raise AssertionError
