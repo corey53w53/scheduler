@@ -6,14 +6,14 @@ def insert_task(task_time,gaps):
             gaps[counter]-=task_time
             return gaps
         counter+=1
-    raise AssertionError    
+    raise AssertionError
 gaps=[50,20,30,100]
+x=[[i] for i in gaps]
+print(x)
 gaps=dict(enumerate(gaps))
 print(gaps)
 value_list=list(gaps.values())
-print(value_list)
 value_list.sort()
-print(value_list)
 
 print(gaps)
 task_list=[["math",30],["WHAP",90]]
