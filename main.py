@@ -130,20 +130,15 @@ for e in event_list:
     empty_time_list.append(e[1].start_time)
     empty_time_list.append(e[1].end_time)
 empty_time_list.append(end_bound)
-empty_event_list=[]
 gaps_list=[]
 counter=0
 while counter<len(empty_time_list)-1:
     empty_start=empty_time_list[counter]
     empty_end=empty_time_list[counter+1]
     empty_event=Event(empty_start,empty_end)
-    empty_event_list.append(empty_event)
     gaps_list.append(Gap(empty_event.diff))
     counter+=2
-    print(empty_event_list)
 #empty_time_list is a list of times
-#empty_event_list contains a list of events during which is free time
-#empty_times_lengths_list has list of integers, which is the minutes available to insert tasks (in between events)
 
 big_tasks=[]
 for task in task_list:
