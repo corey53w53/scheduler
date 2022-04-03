@@ -1,7 +1,6 @@
 import time
 import copy
 
-from numpy import isin
 class Time:
     def __init__(self,hour=time.localtime().tm_hour,min=time.localtime().tm_min):
         assert(0<=hour<24)
@@ -66,6 +65,12 @@ class Event(Time):
         self.diff=(self.start_time).difference(self.end_time)
     def __str__(self):
         return f'{self.start_time} - {self.end_time}'
+class Task:
+    def __init__(self,name,time):
+        self.name=name
+        self.time=time
+    def __str__(self):
+        return f'{self.name} for {self.time} min'
 user_input="school 6:30-14:30 meeting 15:00 90 math 30"
 clean=user_input.split()
 counter=0
@@ -93,7 +98,7 @@ task_list=[]
 event_list=[]
 for l in total_list:
     if len(l)==2 and isinstance(l[1],int):
-            task_list.append(l)
+            task_list.append(Task(l[0],l[1]))
     else:
         time_length=l[1:]
         event=Event(*time_length)
@@ -120,3 +125,5 @@ while counter<len(empty_time_list)-1:
 #empty_event_list contains a list of events during which is free time
 #empty_times_lengths_list has list of integers, which is the minutes available to insert tasks (in between events)
 print(empty_times_lengths_list)
+for a in task_list:
+    print(a)
