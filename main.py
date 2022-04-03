@@ -76,12 +76,12 @@ class Gap:
         Gap.gap_num+=1
     def __str__(self):
         if len(self.task_list)==0:
-            return f'Gap {self.id}: {self.time} mins total with no tasks'
+            return f'Gap {self.id}: {self.time} mins total with no tasks, starting at {self.start_time}'
         else:
             s=f'Gap {self.id}: {self.time} minutes total with {self.time_available} minutes left, contains:'
             for task in self.task_list:
                 s+=f'\n{task.name} for {task.time} minutes'
-            return s
+            return s+f'\nstarts at {self.start_time}'
     def insert(self,task):
         #event should be a tuple of (name of event, length)
         self.task_list.append(task)
@@ -133,13 +133,11 @@ for e in event_list:
 empty_time_list.append(end_bound)
 gaps_list=[]
 counter=0
-empty_event_list=[]
 while counter<len(empty_time_list)-1:
     empty_start=empty_time_list[counter]
     empty_end=empty_time_list[counter+1]
     empty_event=Event(empty_start,empty_end)
-    gaps_list.append(Gap(empty_event.diff))
-    empty_event_list.append(empty_event)
+    gaps_list.append(Gap(empty_event.diff,empty_start))
     counter+=2
 #empty_time_list is a list of times
 
