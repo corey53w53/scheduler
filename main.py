@@ -65,6 +65,26 @@ class Event(Time):
         self.diff=(self.start_time).difference(self.end_time)
     def __str__(self):
         return f'{self.start_time} - {self.end_time}'
+class Gap:
+    gap_num=0
+    def __init__(self, time):
+        self.time_available=time
+        self.time=time
+        self.id=Gap.gap_num
+        self.task_list=[]
+        Gap.gap_num+=1
+    def __str__(self):
+        if len(self.task_list)==0:
+            return f'Gap {self.id}: {self.time} mins total with no tasks'
+        else:
+            s=f'Gap {self.id}: {self.time} minutes total with {self.time_available} minutes left, contains:'
+            for task in self.task_list:
+                s+=f'\n{task.name} for {task.time} minutes'
+            return s
+    def insert(self,task):
+        #event should be a tuple of (name of event, length)
+        self.task_list.append(task)
+        self.time_available-=task.time
 class Task:
     def __init__(self,name,time):
         self.name=name
