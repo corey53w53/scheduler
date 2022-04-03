@@ -30,7 +30,7 @@ class Task:
         return f'{self.name} for {self.time} min'
 g=Gap(40)
 t=Task("math",30)
-t2=Task("english",110)
+t2=Task("english",20)
 g.insert(t)
 print(g)
 task_list=[]
@@ -51,6 +51,9 @@ for task in task_list:
     if not inserted:
         big_tasks.append(task)
 print(big_tasks)
+for gap in gap_list:
+    for t in gap.task_list:
+        initial_time=
 for g in gap_list:
     print(g)
 

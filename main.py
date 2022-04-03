@@ -151,5 +151,17 @@ for task in task_list:
             break
     if not inserted:
         big_tasks.append(task)
+buffer=15
 for gap in gaps_list:
-    print(gap)
+    start_time=gap.start_time
+    start_time+15
+    print(start_time)
+    for t in gap.task_list:
+        print(type(start_time))
+        print(type(t.time))
+        # new_task=Event(start_time,t.time)
+        # print(new_task)
+        pass
+#TODO understand format of initalizing event
+#TODO find start times for each task, cant all be the same if in same gap
+#TODO make tasks into events by giving it a start time and a length,
