@@ -67,11 +67,12 @@ class Event(Time):
         return f'{self.start_time} - {self.end_time}'
 class Gap:
     gap_num=0
-    def __init__(self, time):
+    def __init__(self, time, start_time):
         self.time_available=time
         self.time=time
         self.id=Gap.gap_num
         self.task_list=[]
+        self.start_time=start_time
         Gap.gap_num+=1
     def __str__(self):
         if len(self.task_list)==0:
@@ -132,11 +133,13 @@ for e in event_list:
 empty_time_list.append(end_bound)
 gaps_list=[]
 counter=0
+empty_event_list=[]
 while counter<len(empty_time_list)-1:
     empty_start=empty_time_list[counter]
     empty_end=empty_time_list[counter+1]
     empty_event=Event(empty_start,empty_end)
     gaps_list.append(Gap(empty_event.diff))
+    empty_event_list.append(empty_event)
     counter+=2
 #empty_time_list is a list of times
 
