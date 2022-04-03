@@ -18,7 +18,6 @@ class Gap:
             for task in self.task_list:
                 s+=f'\n{task.name} for {task.time} minutes'
             return s
-            #30 minutes total with 15 minutes left, contains math for 15 minutes, english for 0 minutes
     def insert(self,task):
         #event should be a tuple of (name of event, length)
         self.task_list.append(task)
@@ -31,7 +30,7 @@ class Task:
         return f'{self.name} for {self.time} min'
 g=Gap(40)
 t=Task("math",30)
-t2=Task("english",60)
+t2=Task("english",110)
 g.insert(t)
 print(g)
 task_list=[]
@@ -41,7 +40,17 @@ gaps=[50,20,30,100]
 gap_list=[]
 for gap in gaps:
     gap_list.append(Gap(gap))
-
+big_tasks=[]
+for task in task_list:
+    inserted=False
+    for g in gap_list:
+        if task.time<=g.time_available:
+            g.insert(task)
+            inserted=True
+            break
+    if not inserted:
+        big_tasks.append(task)
+print(big_tasks)
 for g in gap_list:
     print(g)
 
