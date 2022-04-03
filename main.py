@@ -131,19 +131,29 @@ for e in event_list:
     empty_time_list.append(e[1].end_time)
 empty_time_list.append(end_bound)
 empty_event_list=[]
-empty_times_lengths_list=[]
+gaps_list=[]
 counter=0
 while counter<len(empty_time_list)-1:
     empty_start=empty_time_list[counter]
     empty_end=empty_time_list[counter+1]
     empty_event=Event(empty_start,empty_end)
     empty_event_list.append(empty_event)
-    empty_times_lengths_list.append(empty_event.diff)
+    gaps_list.append(Gap(empty_event.diff))
     counter+=2
     print(empty_event_list)
 #empty_time_list is a list of times
 #empty_event_list contains a list of events during which is free time
 #empty_times_lengths_list has list of integers, which is the minutes available to insert tasks (in between events)
-print(empty_times_lengths_list)
-for a in task_list:
-    print(a)
+
+big_tasks=[]
+for task in task_list:
+    inserted=False
+    for g in gaps_list:
+        if task.time<=g.time_available:
+            g.insert(task)
+            inserted=True
+            break
+    if not inserted:
+        big_tasks.append(task)
+for gap in gaps_list:
+    print(gap)
