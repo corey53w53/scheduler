@@ -51,9 +51,7 @@ for task in task_list:
     if not inserted:
         big_tasks.append(task)
 print(big_tasks)
-for gap in gap_list:
-    for t in gap.task_list:
-        initial_time=
+
 for g in gap_list:
     print(g)
 
