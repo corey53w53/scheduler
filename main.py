@@ -53,8 +53,15 @@ class Event(Time):
             self.end_time=Time(int(self.end_hour),int(self.end_min))
         elif len(args)==2:
             if isinstance(args[0],Time):
-                self.start_time=args[0]
-                self.end_time=args[1]
+                if isinstance(args[1],Time):
+                    self.start_time=args[0]
+                    self.end_time=args[1]
+                elif isinstance(args[1],int):
+                    start=args[0]
+                    self.start_time=args[0]
+                    inc=int(args[1])
+                    self.end_time=copy.deepcopy(self.start_time)
+                    self.end_time+inc 
             else:
                 start=args[0]
                 self.start_hour,self.start_min=start.split(":")
@@ -125,7 +132,9 @@ for l in total_list:
         event=Event(*time_length)
         event_list.append([l[0],event])
 #sorts lists in total_list into either tasks or events
-
+for n,e in event_list:
+    print(f'{n} at {e}')
+print("AHHHHH")
 empty_time_list=[start_bound.calc_next_fifteen()]
 for e in event_list:
     empty_time_list.append(e[1].start_time)
@@ -141,6 +150,9 @@ while counter<len(empty_time_list)-1:
     counter+=2
 #empty_time_list is a list of times
 
+for n,e in event_list:
+    print(f'{n} at {e}')
+print("AHHHHH")
 big_tasks=[]
 for task in task_list:
     inserted=False
@@ -152,16 +164,19 @@ for task in task_list:
     if not inserted:
         big_tasks.append(task)
 buffer=15
+for n,e in event_list:
+    print(f'{n} at {e}')
+print("\n")
 for gap in gaps_list:
     start_time=gap.start_time
     start_time+15
-    print(start_time)
     for t in gap.task_list:
-        print(type(start_time))
-        print(type(t.time))
-        # new_task=Event(start_time,t.time)
-        # print(new_task)
-        pass
+        print(t)
+        new_task=Event(start_time,t.time)
+        event_list.append([t.name,new_task])
+for n,e in event_list:
+    print(f'{n} at {e}')
+#TODO fix bug involving meeting ending at 16:45 when it should be 30
 #TODO understand format of initalizing event
 #TODO find start times for each task, cant all be the same if in same gap
 #TODO make tasks into events by giving it a start time and a length,
