@@ -44,9 +44,10 @@ class Time:
         return -self.to_int()+t2.to_int()
 
 class Event(Time):
-    def __init__(self, *args):
+    def __init__(self, name,*args):
         if len(args)==1:
             start,end=args[0].split("-")
+            self.name=name
             self.start_hour,self.start_min=start.split(":")
             self.end_hour,self.end_min=end.split(":")
             self.start_time=Time(int(self.start_hour),int(self.start_min))
@@ -99,10 +100,10 @@ class Task:
         self.time=time
     def __str__(self):
         return f'{self.name} for {self.time} min'
-user_input="school 6:30-14:30 meeting 15:00 90 math 30"
+user_input="meeting 15:00 90 school 6:30-14:30 math 30"
 clean=user_input.split()
 counter=0
-start_bound=Time(1,0)
+start_bound=Time(6,30)
 end_bound=Time(22,0)
 
 total_list=[]
@@ -118,7 +119,6 @@ while counter<len(clean):
             counter+=1
             if counter==len(clean):
                 break
-    print(smaller_list)
     total_list.append(smaller_list)
 #parses user input into "total_list"
 
@@ -129,22 +129,25 @@ for l in total_list:
             task_list.append(Task(l[0],l[1]))
     else:
         time_length=l[1:]
-        event=Event(*time_length)
-        event_list.append([l[0],event])
+        event=Event(l[0],*time_length)
+        event_list.append(event)
 #sorts lists in total_list into either tasks or events
-for n,e in event_list:
-    print(f'{n} at {e}')
+event_list.sort(key=lambda x:x.start_time.as_int)
+#sorts event_list by the start times
+
 empty_time_list=[start_bound.calc_next_fifteen()]
 for e in event_list:
-    empty_time_list.append(e[1].start_time)
-    empty_time_list.append(e[1].end_time)
+    empty_time_list.append(e.start_time)
+    empty_time_list.append(e.end_time)
 empty_time_list.append(end_bound)
 gaps_list=[]
 counter=0
+for t in empty_time_list:
+    print(t)
 while counter<len(empty_time_list)-1:
     empty_start=empty_time_list[counter]
     empty_end=empty_time_list[counter+1]
-    empty_event=Event(empty_start,empty_end)
+    empty_event=Event("gap",empty_start,empty_end)
     gaps_list.append(Gap(empty_event.diff,copy.deepcopy(empty_start)))
     counter+=2
 #empty_time_list is a list of times
@@ -159,22 +162,15 @@ for task in task_list:
             break
     if not inserted:
         big_tasks.append(task)
-buffer=15
-for n,e in event_list:
-    print(f'{n} at {e}')
-print("\n")
-for gap in gaps_list:
-    print(gap)
+
 for gap in gaps_list:
     start_time=gap.start_time
     start_time+15
     for t in gap.task_list:
-        print(t)
-        new_task=Event(start_time,t.time)
-        event_list.append([t.name,new_task])
-for n,e in event_list:
-    print(f'{n} at {e}')
-#TODO fix bug involving meeting ending at 16:45 when it should be 30
+        new_task=Event(t.name,start_time,t.time)
+        event_list.append(Event(t.name,start_time,t.time))
+for e in event_list:
+    print(e)
 #TODO understand format of initalizing event
 #TODO find start times for each task, cant all be the same if in same gap
 #TODO make tasks into events by giving it a start time and a length,
