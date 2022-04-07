@@ -134,7 +134,6 @@ for l in total_list:
 #sorts lists in total_list into either tasks or events
 for n,e in event_list:
     print(f'{n} at {e}')
-print("AHHHHH")
 empty_time_list=[start_bound.calc_next_fifteen()]
 for e in event_list:
     empty_time_list.append(e[1].start_time)
@@ -146,13 +145,10 @@ while counter<len(empty_time_list)-1:
     empty_start=empty_time_list[counter]
     empty_end=empty_time_list[counter+1]
     empty_event=Event(empty_start,empty_end)
-    gaps_list.append(Gap(empty_event.diff,empty_start))
+    gaps_list.append(Gap(empty_event.diff,copy.deepcopy(empty_start)))
     counter+=2
 #empty_time_list is a list of times
 
-for n,e in event_list:
-    print(f'{n} at {e}')
-print("AHHHHH")
 big_tasks=[]
 for task in task_list:
     inserted=False
@@ -167,6 +163,8 @@ buffer=15
 for n,e in event_list:
     print(f'{n} at {e}')
 print("\n")
+for gap in gaps_list:
+    print(gap)
 for gap in gaps_list:
     start_time=gap.start_time
     start_time+15
