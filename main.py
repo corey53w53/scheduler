@@ -25,6 +25,14 @@ class Time:
     def __add__(self,num):
         self.min+=num
         self.make_valid()
+    def __lt__(self,t2):
+        return self.to_int()<t2.to_int()
+    def __gt__(self,t2):
+        return self.to_int()>t2.to_int()
+    def __le__(self,t2):
+        return self.to_int()<=t2.to_int()
+    def __ge__(self,t2):
+        return self.to_int()>=t2.to_int()
     def calc_next_fifteen(self, buffer=5):
         next_min=15*(self.min//15+1)
         while next_min-self.min<=buffer:
