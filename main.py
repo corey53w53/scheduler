@@ -117,9 +117,7 @@ while counter<len(clean):
             if counter==len(clean): break
     total_list.append(smaller_list)
 #parses user input into "total_list"
-
-task_list=[]
-event_list=[]
+task_list,event_list=[],[]
 for l in total_list:
     if len(l)==2 and isinstance(l[1],int): task_list.append(Task(l[0],l[1]))
     else:
@@ -134,6 +132,7 @@ for c in range(len(event_list)-1):
     if (event_list[c].end_time.as_int>event_list[c+1].start_time.as_int):
         raise Exception("event times have overlap")
 
+#change below somehow
 empty_time_list=[start_bound]
 for e in event_list:
     empty_time_list.append(e.start_time)
