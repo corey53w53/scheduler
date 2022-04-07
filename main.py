@@ -111,7 +111,7 @@ class Task:
     def __str__(self):
         return f'{self.name} for {self.time} min'
 
-user_input="meeting 15:00-16:30 school 6:30-12:00 math 30 english 30"
+user_input="meeting 15:00-16:30 school 6:30-14:00 math 30 english 30"
 clean=user_input.split()
 counter=0
 start_bound=Time(6,30)
@@ -141,7 +141,7 @@ event_list.sort(key=lambda x:x.start_time.as_int)
 #sorts event_list by the start times
 
 for c in range(len(event_list)-1):
-    if (event_list[c].end_time.as_int>event_list[c+1].start_time.as_int):
+    if event_list[c].has_conflict(event_list[c+1]):
         raise Exception("event times have overlap")
 if event_list[0].start_time<start_bound:
     raise Exception("first event starts before the start bound, try making the start bound earlier")
