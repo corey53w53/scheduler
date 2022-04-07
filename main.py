@@ -1,6 +1,5 @@
 import time
 import copy
-
 class Time:
     def __init__(self,hour=time.localtime().tm_hour,min=time.localtime().tm_min):
         assert(0<=hour<24)
@@ -42,12 +41,11 @@ class Time:
         return self.hour*60+self.min
     def difference(self,t2):
         return -self.to_int()+t2.to_int()
-
 class Event(Time):
     def __init__(self, name,*args):
+        self.name=name
         if len(args)==1:
             start,end=args[0].split("-")
-            self.name=name
             self.start_hour,self.start_min=start.split(":")
             self.end_hour,self.end_min=end.split(":")
             self.start_time=Time(int(self.start_hour),int(self.start_min))
@@ -100,7 +98,8 @@ class Task:
         self.time=time
     def __str__(self):
         return f'{self.name} for {self.time} min'
-user_input="meeting 15:00 90 school 6:30-14:30 math 30"
+
+user_input="meeting 15:00-16:30 school 6:30-12:00 math 30 english 30"
 clean=user_input.split()
 counter=0
 start_bound=Time(6,30)
@@ -112,21 +111,17 @@ while counter<len(clean):
         smaller_list=[clean[counter]]
         counter+=1
         while not clean[counter].isalpha():
-            if clean[counter].isnumeric():
-                smaller_list.append(int(clean[counter]))
-            else:
-                smaller_list.append(clean[counter])
+            if clean[counter].isnumeric(): smaller_list.append(int(clean[counter]))
+            else: smaller_list.append(clean[counter])
             counter+=1
-            if counter==len(clean):
-                break
+            if counter==len(clean): break
     total_list.append(smaller_list)
 #parses user input into "total_list"
 
 task_list=[]
 event_list=[]
 for l in total_list:
-    if len(l)==2 and isinstance(l[1],int):
-            task_list.append(Task(l[0],l[1]))
+    if len(l)==2 and isinstance(l[1],int): task_list.append(Task(l[0],l[1]))
     else:
         time_length=l[1:]
         event=Event(l[0],*time_length)
@@ -135,22 +130,25 @@ for l in total_list:
 event_list.sort(key=lambda x:x.start_time.as_int)
 #sorts event_list by the start times
 
-empty_time_list=[start_bound.calc_next_fifteen()]
+for c in range(len(event_list)-1):
+    if (event_list[c].end_time.as_int>event_list[c+1].start_time.as_int):
+        raise Exception("event times have overlap")
+
+empty_time_list=[start_bound]
 for e in event_list:
     empty_time_list.append(e.start_time)
     empty_time_list.append(e.end_time)
 empty_time_list.append(end_bound)
+#empty_time_list is a list of times
+
 gaps_list=[]
 counter=0
-for t in empty_time_list:
-    print(t)
 while counter<len(empty_time_list)-1:
     empty_start=empty_time_list[counter]
     empty_end=empty_time_list[counter+1]
     empty_event=Event("gap",empty_start,empty_end)
     gaps_list.append(Gap(empty_event.diff,copy.deepcopy(empty_start)))
     counter+=2
-#empty_time_list is a list of times
 
 big_tasks=[]
 for task in task_list:
@@ -160,17 +158,17 @@ for task in task_list:
             g.insert(task)
             inserted=True
             break
-    if not inserted:
-        big_tasks.append(task)
+    if not inserted: big_tasks.append(task)
 
 for gap in gaps_list:
     start_time=gap.start_time
-    start_time+15
+    #perhaps add buffer here?
     for t in gap.task_list:
         new_task=Event(t.name,start_time,t.time)
         event_list.append(Event(t.name,start_time,t.time))
+event_list.sort(key=lambda x:x.start_time.as_int)
+
 for e in event_list:
-    print(e)
-#TODO understand format of initalizing event
+    print(e.name,e)
 #TODO find start times for each task, cant all be the same if in same gap
 #TODO make tasks into events by giving it a start time and a length,
