@@ -28,7 +28,10 @@ class Time:
         return self.to_int()<t2.to_int()
     def __gt__(self,t2):
         return self.to_int()>t2.to_int()
-
+    def __le__(self,t2):
+        return self.to_int()<=t2.to_int()
+    def __ge__(self,t2):
+        return self.to_int()>=t2.to_int()
     def calc_next_fifteen(self, buffer=5):
         next_min=15*(self.min//15+1)
         while next_min-self.min<=buffer:
@@ -46,6 +49,6 @@ class Time:
     def difference(self,t2):
         return -self.to_int()+t2.to_int()
 
-t1=Time(5,000)
+t1=Time(4,30)
 t2=Time(4,30)
-print(t1>t2)
+print(t1==t2)
