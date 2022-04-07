@@ -77,8 +77,12 @@ class Event(Time):
                 self.end_time=copy.deepcopy(self.start_time)
                 self.end_time+inc
         self.diff=(self.start_time).difference(self.end_time)
+        if self.start_time>self.end_time:
+            raise Exception("event start time is after end time")
     def __str__(self):
-        return f'{self.start_time} - {self.end_time}'
+        return f'{self.name}: {self.start_time} - {self.end_time}'
+    def has_conflict(self,e2):
+        return (self.start_time>e2.end_time and self.end_time<e2.start_time) or (self.start_time<e2.end_time and self.end_time>e2.start_time)
 class Gap:
     gap_num=0
     def __init__(self, time, start_time):
