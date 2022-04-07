@@ -164,11 +164,9 @@ for gap in gaps_list:
     start_time=gap.start_time
     #perhaps add buffer here?
     for t in gap.task_list:
-        new_task=Event(t.name,start_time,t.time)
-        event_list.append(Event(t.name,start_time,t.time))
+        event_list.append(Event(t.name,copy.deepcopy(start_time),t.time))
+        start_time+t.time
 event_list.sort(key=lambda x:x.start_time.as_int)
 
 for e in event_list:
     print(e.name,e)
-#TODO find start times for each task, cant all be the same if in same gap
-#TODO make tasks into events by giving it a start time and a length,
