@@ -131,6 +131,10 @@ event_list.sort(key=lambda x:x.start_time.as_int)
 for c in range(len(event_list)-1):
     if (event_list[c].end_time.as_int>event_list[c+1].start_time.as_int):
         raise Exception("event times have overlap")
+if event_list[0].start_time<start_bound:
+    raise Exception("first event starts before the start bound, try making the start bound earlier")
+elif event_list[-1].end_time>end_bound:
+    raise Exception("last event ends after the end bound, try making the end bound later")
 
 #change below somehow
 empty_time_list=[start_bound]
