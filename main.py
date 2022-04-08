@@ -116,7 +116,7 @@ clean=lines.split()
 # print(clean)
 counter=0
 start_bound=Time(6,30)
-end_bound=Time(23,0)
+# end_bound=Time(23,0)
 
 total_list=[]
 while counter<len(clean):
@@ -146,8 +146,8 @@ for c in range(len(event_list)-1):
         raise Exception("event times have overlap")
 if event_list[0].start_time<start_bound:
     raise Exception("first event starts before the start bound, try making the start bound earlier")
-elif event_list[-1].end_time>end_bound:
-    raise Exception("last event ends after the end bound, try making the end bound later")
+# elif event_list[-1].end_time>end_bound:
+#     raise Exception("last event ends after the end bound, try making the end bound later")
 
 #change below somehow
 empty_time_list=[start_bound]
