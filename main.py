@@ -155,7 +155,8 @@ for e in event_list:
     empty_time_list.append(e.start_time)
     empty_time_list.append(e.end_time)
 final_event_end_time=copy.deepcopy(empty_time_list.pop())
-#empty_time_list is a list of times
+#empty_time_list is a list of times, final_event_end_time is used later when adding big tasks
+
 gaps_list=[]
 counter=0
 while counter<len(empty_time_list)-1:
@@ -164,6 +165,7 @@ while counter<len(empty_time_list)-1:
     empty_event=Event("gap",empty_start,empty_end)
     gaps_list.append(Gap(empty_event.diff,copy.deepcopy(empty_start)))
     counter+=2
+#creates gaps_list, list of gap objects with empty times to insert tasks in free time slots in between events
 
 big_tasks=[]
 for task in task_list:
@@ -174,22 +176,23 @@ for task in task_list:
             inserted=True
             break
     if not inserted: big_tasks.append(task)
+#adds tasks to gaps, and if it does not fit adds it to big_tasks list
+
 for gap in gaps_list:
     start_time=gap.start_time
     #perhaps add buffer here?
     for t in gap.task_list:
         event_list.append(Event(t.name,copy.deepcopy(start_time),t.time))
         start_time+t.time
-event_list.sort(key=lambda x:x.start_time.as_int)
+#add tasks in each gap as an event to event_list
+
 for t in big_tasks:
     event_list.append(Event(t.name,copy.deepcopy(final_event_end_time),t.time))
-    counter+=1
     final_event_end_time+t.time
 event_list.sort(key=lambda x:x.start_time.as_int)
-
+#add all the big tasks to the event list with the starting time final_event_end_time, the ending tiem of the last event
 for e in event_list:
     print(e)
 
-#TODO figure out what to do with end bound and add extra tasks at the end
-#TODO create a better way to 
+#TODO find out how to implement end bound
 #TODO accept better forms of input, perhaps use actual time module...
