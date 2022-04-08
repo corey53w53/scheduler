@@ -192,5 +192,6 @@ event_list.sort(key=lambda x:x.start_time.as_int)
 for e in event_list:
     print(e)
 
+#TODO rework gaps so i can add just a start time and add all bigtasts in there
 #TODO find out how to implement end bound
 #TODO accept better forms of input, perhaps use actual time module...
