@@ -141,11 +141,9 @@ for l in total_list:
 event_list.sort(key=lambda x:x.start_time.as_int)
 #sorts event_list by the start times
 
-for c in range(len(event_list)-1):
-    if event_list[c].has_conflict(event_list[c+1]):
-        raise Exception("event times have overlap")
-if event_list[0].start_time<start_bound:
-    raise Exception("first event starts before the start bound, try making the start bound earlier")
+for c in range(len(event_list)-1): 
+    if event_list[c].has_conflict(event_list[c+1]): raise Exception("event times have overlap")
+if event_list[0].start_time<start_bound: raise Exception("first event starts before the start bound, try making the start bound earlier")
 # elif event_list[-1].end_time>end_bound:
 #     raise Exception("last event ends after the end bound, try making the end bound later")
 
@@ -163,7 +161,7 @@ while counter<len(empty_time_list)-1:
     empty_start=empty_time_list[counter]
     empty_end=empty_time_list[counter+1]
     empty_event=Event("gap",empty_start,empty_end)
-    gaps_list.append(Gap(empty_event.diff,copy.deepcopy(empty_start)))
+    gaps_list.append(Gap(empty_event.diff,empty_start))
     counter+=2
 #creates gaps_list, list of gap objects with empty times to insert tasks in free time slots in between events
 
