@@ -111,8 +111,9 @@ class Task:
     def __str__(self):
         return f'{self.name} for {self.time} min'
 
-user_input="meeting 15:00-16:30 school 6:30-14:00 math 30 english 30"
-clean=user_input.split()
+with open('input.txt') as f: lines = f.read()
+clean=lines.split()
+# print(clean)
 counter=0
 start_bound=Time(6,30)
 end_bound=Time(22,0)
@@ -184,4 +185,4 @@ for gap in gaps_list:
 event_list.sort(key=lambda x:x.start_time.as_int)
 
 for e in event_list:
-    print(e.name,e)
+    print(e)
