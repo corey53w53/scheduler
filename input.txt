@@ -1,7 +1,7 @@
 meeting 15:00-16:30
 school 6:30-14:00
-math 30
+math 70
 english 30
 whap 60
-cs 100
+cs 20
 test 120

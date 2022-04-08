@@ -49,7 +49,7 @@ class Time:
         return self.hour*60+self.min
     def difference(self,t2):
         return -self.to_int()+t2.to_int()
-class Event(Time):
+class Event:
     def __init__(self, name,*args):
         self.name=name
         if len(args)==1:
@@ -154,7 +154,7 @@ empty_time_list=[start_bound]
 for e in event_list:
     empty_time_list.append(e.start_time)
     empty_time_list.append(e.end_time)
-final_event_end_time=empty_time_list.pop()
+final_event_end_time=copy.deepcopy(empty_time_list.pop())
 #empty_time_list is a list of times
 gaps_list=[]
 counter=0
@@ -179,11 +179,12 @@ for gap in gaps_list:
     #perhaps add buffer here?
     for t in gap.task_list:
         event_list.append(Event(t.name,copy.deepcopy(start_time),t.time))
-        print(type(t.name))
-        print(type(copy.deepcopy(start_time)))
-        print(type(t.time))
-
         start_time+t.time
+event_list.sort(key=lambda x:x.start_time.as_int)
+for t in big_tasks:
+    event_list.append(Event(t.name,copy.deepcopy(final_event_end_time),t.time))
+    counter+=1
+    final_event_end_time+t.time
 event_list.sort(key=lambda x:x.start_time.as_int)
 
 for e in event_list:

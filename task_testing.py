@@ -119,10 +119,10 @@ event_list=[]
 
 big_tasks=[task1,task2,task3]
 for t in big_tasks:
-    # event_list.append(Event(t.name,copy.deepcopy(start_time),t.time))
+    event_list.append(Event(t.name,copy.deepcopy(start_time),t.time))
     print(type(t.name))
     print(type(copy.deepcopy(start_time)))
     print(type(t.time))
-    # start_time+=t.time
+    start_time+t.time
 for t in event_list:
     print(t)
