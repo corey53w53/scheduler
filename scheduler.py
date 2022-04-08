@@ -55,6 +55,7 @@ while counter<len(clean):
             if counter==len(clean):
                 break
     total_list.append(smaller_list)
+print(total_list)
 t=Time().calc_next_fifteen()
 break_time=10
 for l in total_list:

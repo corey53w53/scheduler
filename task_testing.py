@@ -111,84 +111,18 @@ class Task:
     def __str__(self):
         return f'{self.name} for {self.time} min'
 
-with open('input.txt') as f: lines = f.read()
-clean=lines.split()
-# print(clean)
-counter=0
-start_bound=Time(6,30)
-end_bound=Time(23,0)
+start_time=Time(6,30)
+task1=Task("task1",30)
+task2=Task("task2",60)
+task3=Task("task3",60)
+event_list=[]
 
-total_list=[]
-while counter<len(clean):
-    if clean[counter].isalpha():
-        smaller_list=[clean[counter]]
-        counter+=1
-        while not clean[counter].isalpha():
-            if clean[counter].isnumeric(): smaller_list.append(int(clean[counter]))
-            else: smaller_list.append(clean[counter])
-            counter+=1
-            if counter==len(clean): break
-    total_list.append(smaller_list)
-#parses user input into "total_list"
-task_list,event_list=[],[]
-for l in total_list:
-    if len(l)==2 and isinstance(l[1],int): task_list.append(Task(l[0],l[1]))
-    else:
-        time_length=l[1:]
-        event=Event(l[0],*time_length)
-        event_list.append(event)
-#sorts lists in total_list into either tasks or events
-event_list.sort(key=lambda x:x.start_time.as_int)
-#sorts event_list by the start times
-
-for c in range(len(event_list)-1):
-    if event_list[c].has_conflict(event_list[c+1]):
-        raise Exception("event times have overlap")
-if event_list[0].start_time<start_bound:
-    raise Exception("first event starts before the start bound, try making the start bound earlier")
-elif event_list[-1].end_time>end_bound:
-    raise Exception("last event ends after the end bound, try making the end bound later")
-
-#change below somehow
-empty_time_list=[start_bound]
-for e in event_list:
-    empty_time_list.append(e.start_time)
-    empty_time_list.append(e.end_time)
-final_event_end_time=empty_time_list.pop()
-#empty_time_list is a list of times
-gaps_list=[]
-counter=0
-while counter<len(empty_time_list)-1:
-    empty_start=empty_time_list[counter]
-    empty_end=empty_time_list[counter+1]
-    empty_event=Event("gap",empty_start,empty_end)
-    gaps_list.append(Gap(empty_event.diff,copy.deepcopy(empty_start)))
-    counter+=2
-
-big_tasks=[]
-for task in task_list:
-    inserted=False
-    for g in gaps_list:
-        if task.time<=g.time_available:
-            g.insert(task)
-            inserted=True
-            break
-    if not inserted: big_tasks.append(task)
-for gap in gaps_list:
-    start_time=gap.start_time
-    #perhaps add buffer here?
-    for t in gap.task_list:
-        event_list.append(Event(t.name,copy.deepcopy(start_time),t.time))
-        print(type(t.name))
-        print(type(copy.deepcopy(start_time)))
-        print(type(t.time))
-
-        start_time+t.time
-event_list.sort(key=lambda x:x.start_time.as_int)
-
-for e in event_list:
-    print(e)
-
-#TODO figure out what to do with end bound and add extra tasks at the end
-#TODO create a better way to 
-#TODO accept better forms of input, perhaps use actual time module...
+big_tasks=[task1,task2,task3]
+for t in big_tasks:
+    # event_list.append(Event(t.name,copy.deepcopy(start_time),t.time))
+    print(type(t.name))
+    print(type(copy.deepcopy(start_time)))
+    print(type(t.time))
+    # start_time+=t.time
+for t in event_list:
+    print(t)
