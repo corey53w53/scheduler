@@ -85,9 +85,10 @@ class Event:
         return (self.start_time>e2.end_time and self.end_time<e2.start_time) or (self.start_time<e2.end_time and self.end_time>e2.start_time)
 class Gap:
     gap_num=0
-    def __init__(self, start_time, time="inf"):
-        self.time_available=time
+    def __init__(self, start_time, time="unlimited"):
         self.time=time
+        if type(self.time)==int:
+            self.time_available=time
         self.id=Gap.gap_num
         self.task_list=[]
         self.start_time=start_time
@@ -103,7 +104,8 @@ class Gap:
     def insert(self,task):
         #event should be a tuple of (name of event, length)
         self.task_list.append(task)
-        self.time_available-=task.time
+        if type(self.time_available)==int:
+            self.time_available-=task.time
 class Task:
     def __init__(self,name,time):
         self.name=name
@@ -163,6 +165,7 @@ while counter<len(empty_time_list)-1:
     empty_event=Event("gap",empty_start,empty_end)
     gaps_list.append(Gap(empty_start,empty_event.diff))
     counter+=2
+
 #creates gaps_list, list of gap objects with empty times to insert tasks in free time slots in between events
 
 big_tasks=[]
@@ -176,19 +179,22 @@ for task in task_list:
     if not inserted: big_tasks.append(task)
 #adds tasks to gaps, and if it does not fit adds it to big_tasks list
 
+gaps_list.append(Gap(final_event_end_time))
+
 for gap in gaps_list:
     start_time=copy.deepcopy(gap.start_time)
     #perhaps add buffer here?
     for t in gap.task_list:
         event_list.append(Event(t.name,copy.deepcopy(start_time),t.time))
         start_time+t.time
+    if gap.time=="unlimited":
+        for t in big_tasks:
+            event_list.append(Event(t.name,copy.deepcopy(start_time),t.time))
+            start_time+t.time
+            #add all the big tasks to the event list with the starting time final_event_end_time, the ending time of the last event
 #add tasks in each gap as an event to event_list
 
-for t in big_tasks:
-    event_list.append(Event(t.name,copy.deepcopy(final_event_end_time),t.time))
-    final_event_end_time+t.time
 event_list.sort(key=lambda x:x.start_time.as_int)
-#add all the big tasks to the event list with the starting time final_event_end_time, the ending tiem of the last event
 
 for e in event_list:
     print(e)
