@@ -85,7 +85,7 @@ class Event:
         return (self.start_time>e2.end_time and self.end_time<e2.start_time) or (self.start_time<e2.end_time and self.end_time>e2.start_time)
 class Gap:
     gap_num=0
-    def __init__(self, time, start_time):
+    def __init__(self, start_time, time="inf"):
         self.time_available=time
         self.time=time
         self.id=Gap.gap_num
@@ -161,7 +161,7 @@ while counter<len(empty_time_list)-1:
     empty_start=empty_time_list[counter]
     empty_end=empty_time_list[counter+1]
     empty_event=Event("gap",empty_start,empty_end)
-    gaps_list.append(Gap(empty_event.diff,empty_start))
+    gaps_list.append(Gap(empty_start,empty_event.diff))
     counter+=2
 #creates gaps_list, list of gap objects with empty times to insert tasks in free time slots in between events
 
@@ -177,7 +177,7 @@ for task in task_list:
 #adds tasks to gaps, and if it does not fit adds it to big_tasks list
 
 for gap in gaps_list:
-    start_time=gap.start_time
+    start_time=copy.deepcopy(gap.start_time)
     #perhaps add buffer here?
     for t in gap.task_list:
         event_list.append(Event(t.name,copy.deepcopy(start_time),t.time))
@@ -189,6 +189,7 @@ for t in big_tasks:
     final_event_end_time+t.time
 event_list.sort(key=lambda x:x.start_time.as_int)
 #add all the big tasks to the event list with the starting time final_event_end_time, the ending tiem of the last event
+
 for e in event_list:
     print(e)
 
