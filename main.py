@@ -119,7 +119,6 @@ clean=lines.split()
 counter=0
 start_bound=Time(6,30)
 # end_bound=Time(23,0)
-
 total_list=[]
 while counter<len(clean):
     if clean[counter].isalpha():
@@ -199,6 +198,6 @@ event_list.sort(key=lambda x:x.start_time.as_int)
 for e in event_list:
     print(e)
 
-#TODO rework gaps so i can add just a start time and add all bigtasts in there
+#TODO think about how to add times after 23:59 without creating an error, maybe switch to time module
 #TODO find out how to implement end bound
 #TODO accept better forms of input, perhaps use actual time module...
