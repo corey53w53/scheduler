@@ -142,10 +142,8 @@ class Task:
 with open('input.txt') as f:
     lines = f.read()
 clean = lines.split()
-# print(clean)
 counter = 0
 start_bound = Time(6, 30)
-# end_bound=Time(23,0)
 total_list = []
 while counter < len(clean):
     if clean[counter].isalpha():
